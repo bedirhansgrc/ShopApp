@@ -5,32 +5,22 @@ const Joi = require("joi")
 app.use(express.json())
 
 const products = [
-    {id:1, name: "iphone 12", price: 20000},
-    {id:2, name: "iphone 13", price: 30000},
-    {id:3, name: "iphone 14", price: 40000}
+    { id: 1, name: "iphone 12", price: 20000 },
+    { id: 2, name: "iphone 13", price: 30000 },
+    { id: 3, name: "iphone 14", price: 40000 }
 ]
 
-app.get("/api/products/:id", (req,res) => {
-    const product = products.find(p => p.id == req.params.id)
-    if(!product){
-        res.status(404).send("aradığınız ürün bulunamadı")
-    }else{
-        res.send(product)
-    }
+app.get("/", (req, res) => {
+    res.send("hello wolverine")
 })
-app.get("/api/products", (req,res) => {
+app.get("/api/products", (req, res) => {
     res.send(products)
 })
 
-app.post("/api/products", (req,res) => {
-    const schema = new Joi.object({
-        name: Joi.string().min(3).max(30).required(),
-        price : Joi.number().required().min(0)
-    })
+app.post("/api/products", (req, res) => {
+    const { error } = validateProduct(req.body)
 
-    const result = schema.validate(req.body)
-    
-    if(result.error){
+    if (error) {
         res.status(400).send(result.error.details[0].message)
         return
     }
@@ -38,16 +28,51 @@ app.post("/api/products", (req,res) => {
     const product = {
         id: products.length + 1,
         name: req.body.name,
-        price:  req.body.price
+        price: req.body.price
     }
     products.push(product)
     res.send(product)
 })
 
-app.get("/", (req,res) =>{
-    res.send("hello wolverine")
+app.put("/api/products/:id", (req, res) => {
+    //id'e göre ürün alalım
+    const product = products.find(p => p.id == req.params.id)
+    if (!product) {
+        res.status(404).send("aradığınız ürün bulunamadı")
+    }
+
+    const { error } = validateProduct(req.body)
+
+    if (error) {
+        res.status(400).send(result.error.details[0].message)
+        return
+    }
+
+    product.name = req.body.name
+    product.price = req.body.price
+
+    res.send(product)
 })
 
+
+
+app.get("/api/products/:id", (req, res) => {
+    const product = products.find(p => p.id == req.params.id)
+    if (!product) {
+        res.status(404).send("aradığınız ürün bulunamadı")
+    } else {
+        res.send(product)
+    }
+})
+
+function validateProduct(product) {
+    const schema = new Joi.object({
+        name: Joi.string().min(3).max(30).required(),
+        price: Joi.number().required().min(0)
+    })
+
+    return result = schema.validate(product)
+} 
 
 app.listen(3000, () => {
     console.log("listening on port 3000")
