@@ -63,15 +63,6 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
     const result = await Product.deleteOne({ _id: req.params.id })
     res.send(result)
-    
-    // const product = products.find(p => p.id == req.params.id)
-    // if (!product) {
-    //     return res.status(404).send("aradığınız ürün bulunamadı")
-    // }
-
-    // const index = products.indexOf(product)
-    // products.splice(index, 1)
-    // res.send(product)
 })
 
 router.get("/:id", async (req, res) => {
