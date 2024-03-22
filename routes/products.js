@@ -1,16 +1,11 @@
 const express = require("express")
 const router = express.Router()
-const Joi = require("joi")
 
 const { Product , validateProduct} = require("../models/product")
 
-const products = [
-    {id: 1, name: "iphone 12", price:20000},
-    {id: 2, name: "iphone 13", price:30000},
-    {id: 3, name: "iphone 14", price:40000},
-]
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+    const products = await Product.find()
     res.send(products)
 })
 
@@ -69,8 +64,8 @@ router.delete("/:id", (req, res) => {
     res.send(product)
 })
 
-router.get("/:id", (req, res) => {
-    const product = products.find(p => p.id == req.params.id)
+router.get("/:id", async(req, res) => {
+    const product = await Product.findOne({_id: req.params.id})
     if (!product) {
         res.status(404).send("aradığınız ürün bulunamadı")
     } else {
