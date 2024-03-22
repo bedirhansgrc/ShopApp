@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Joi = require("joi")
+const { Schema } = require("mongoose")
 
 const productSchema = mongoose.Schema({
     name: String,
@@ -10,7 +11,8 @@ const productSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    isActive: Boolean
+    isActive: Boolean,
+    category : { type: Schema.Types.ObjectId, ref:"Category" }
 })
 
 function validateProduct(product) {
@@ -19,7 +21,9 @@ function validateProduct(product) {
         price: Joi.number().required().min(0),
         description: Joi.string(),
         imageUrl: Joi.string(),
-        isActive: Joi.boolean()
+        isActive: Joi.boolean(),
+        category: Joi.string()
+
 
     })
 

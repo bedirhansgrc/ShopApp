@@ -2,10 +2,12 @@ const express = require("express")
 const router = express.Router()
 
 const { Product, validateProduct } = require("../models/product")
+const { Category } = require("../models/category")
 
 
 router.get("/", async (req, res) => {
     const products = await Product.find()
+                                        .populate("category", "name -_id")
     res.send(products)
 })
 
@@ -22,7 +24,8 @@ router.post("/", async (req, res) => {
         price: req.body.price,
         description: req.body.description,
         imageUrl: req.body.imageUrl,
-        isActive: req.body.isActive
+        isActive: req.body.isActive,
+        category: req.body.category
     })
 
     const newProduct = await product.save()
