@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 
-const { Product , validateProduct} = require("../models/product")
+const { Product, validateProduct } = require("../models/product")
 
 
 router.get("/", async (req, res) => {
@@ -33,9 +33,9 @@ router.post("/", async (req, res) => {
     }
 })
 
-router.put("/:id", (req, res) => {
+router.put("/:id", async (req, res) => {
     //id'e göre ürün alalım
-    const product = products.find(p => p.id == req.params.id)
+    const product = await Product.findById(req.params.id)
     if (!product) {
         return res.status(404).send("aradığınız ürün bulunamadı")
     }
@@ -43,34 +43,43 @@ router.put("/:id", (req, res) => {
     const { error } = validateProduct(req.body)
 
     if (error) {
-        return res.status(400).send(result.error.details[0].message)
+        return res.status(400).send(error.details[0].message)
 
     }
 
     product.name = req.body.name
     product.price = req.body.price
+    product.description = req.body.description
+    product.imageUrl = req.body.imageUrl
+    product.isActive = req.body.isActive
+
+    const updatedProduct = await product.save()
+
+    res.send(updatedProduct)
 
     res.send(product)
 })
 
-router.delete("/:id", (req, res) => {
-    const product = products.find(p => p.id == req.params.id)
+router.delete("/:id", async (req, res) => {
+    const result = await Product.deleteOne({ _id: req.params.id })
+    res.send(result)
+    
+    // const product = products.find(p => p.id == req.params.id)
+    // if (!product) {
+    //     return res.status(404).send("aradığınız ürün bulunamadı")
+    // }
+
+    // const index = products.indexOf(product)
+    // products.splice(index, 1)
+    // res.send(product)
+})
+
+router.get("/:id", async (req, res) => {
+    const product = await Product.findById(req.params.id)
     if (!product) {
         return res.status(404).send("aradığınız ürün bulunamadı")
     }
-
-    const index = products.indexOf(product)
-    products.splice(index, 1)
     res.send(product)
-})
-
-router.get("/:id", async(req, res) => {
-    const product = await Product.findOne({_id: req.params.id})
-    if (!product) {
-        res.status(404).send("aradığınız ürün bulunamadı")
-    } else {
-        res.send(product)
-    }
 })
 
 
