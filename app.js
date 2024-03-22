@@ -5,10 +5,12 @@ const mongoose = require("mongoose")
 
 const products = require("./routes/products")
 const home = require("./routes/home")
+const categories = require("./routes/categories")
 
 app.use(express.json())
 
 app.use("/api/products", products)
+app.use("/api/categories", categories)
 app.use("/", home)
 
 const username = "bedirhansigirci"

@@ -25,12 +25,8 @@ router.post("/", async (req, res) => {
         isActive: req.body.isActive
     })
 
-    try {
-        await product.save()
-    }
-    catch (err) {
-        console.log(err)
-    }
+    const newProduct = await product.save()
+    res.send(newProduct)
 })
 
 router.put("/:id", async (req, res) => {
@@ -56,13 +52,16 @@ router.put("/:id", async (req, res) => {
     const updatedProduct = await product.save()
 
     res.send(updatedProduct)
-
-    res.send(product)
 })
 
 router.delete("/:id", async (req, res) => {
-    const result = await Product.deleteOne({ _id: req.params.id })
-    res.send(result)
+    const product = await Product.findByIdAndDelete(req.params.id)
+    
+    if(!product){
+        return res.status(404).send("Aradığınız Ürün Bulunamadı")
+    }
+
+    res.send(product)
 })
 
 router.get("/:id", async (req, res) => {
