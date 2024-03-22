@@ -21,8 +21,8 @@ app.post("/api/products", (req, res) => {
     const { error } = validateProduct(req.body)
 
     if (error) {
-        res.status(400).send(result.error.details[0].message)
-        return
+        return res.status(400).send(result.error.details[0].message)
+        
     }
 
     const product = {
@@ -38,14 +38,14 @@ app.put("/api/products/:id", (req, res) => {
     //id'e göre ürün alalım
     const product = products.find(p => p.id == req.params.id)
     if (!product) {
-        res.status(404).send("aradığınız ürün bulunamadı")
+        return res.status(404).send("aradığınız ürün bulunamadı")
     }
 
     const { error } = validateProduct(req.body)
 
     if (error) {
-        res.status(400).send(result.error.details[0].message)
-        return
+        return res.status(400).send(result.error.details[0].message)
+        
     }
 
     product.name = req.body.name
@@ -54,7 +54,16 @@ app.put("/api/products/:id", (req, res) => {
     res.send(product)
 })
 
+app.delete("/api/products/:id", (req,res) => {
+    const product = products.find(p => p.id == req.params.id)
+    if (!product) {
+        return res.status(404).send("aradığınız ürün bulunamadı")
+    }
 
+    const index = products.indexOf(product)
+    products.splice(index,1)
+    res.send(product)
+})
 
 app.get("/api/products/:id", (req, res) => {
     const product = products.find(p => p.id == req.params.id)
