@@ -25,7 +25,10 @@ router.post("/", async (req, res) => {
         description: req.body.description,
         imageUrl: req.body.imageUrl,
         isActive: req.body.isActive,
-        category: req.body.category
+        category: req.body.category,
+        actualPrice: req.body.actualPrice,
+        discount: req.body.discount,
+        stock: req.body.stock
     })
 
     const newProduct = await product.save()
@@ -47,10 +50,14 @@ router.put("/:id", async (req, res) => {
     }
 
     product.name = req.body.name
+    product.discount = req.body.discount
     product.price = req.body.price
     product.description = req.body.description
     product.imageUrl = req.body.imageUrl
     product.isActive = req.body.isActive
+    product.actualPrice = req.body.actualPrice
+    product.discount = req.body.discount
+    product.stock = req.body.stock
 
     const updatedProduct = await product.save()
 
