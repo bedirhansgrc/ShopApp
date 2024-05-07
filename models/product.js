@@ -12,17 +12,23 @@ const productSchema = mongoose.Schema({
         default: Date.now
     },
     isActive: Boolean,
-    category : { type: Schema.Types.ObjectId, ref:"Category" }
+    category : { type: Schema.Types.ObjectId, ref:"Category" },
+    actualPrice: Number,
+    discount: Number,
+    stock : Number
 })
 
 function validateProduct(product) {
     const schema = new Joi.object({
         name: Joi.string().min(3).max(30).required(),
-        price: Joi.number().required().min(0),
+        price: Joi.number().min(0),
         description: Joi.string(),
         imageUrl: Joi.string(),
         isActive: Joi.boolean(),
-        category: Joi.string()
+        category: Joi.string(),
+        actualPrice: Joi.number().required().min(0),
+        discount: Joi.number(),
+        stock: Joi.number()
 
 
     })
