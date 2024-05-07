@@ -1,5 +1,6 @@
 const express = require("express")
 const app = express()
+const cors = require("cors")
 
 const mongoose = require("mongoose")
 
@@ -8,6 +9,13 @@ const home = require("./routes/home")
 const categories = require("./routes/categories")
 
 app.use(express.json())
+
+const corsOptions = {
+    origin: '*',
+    credentials: true,
+    optionSuccessStatus: 200,
+}
+app.use(cors(corsOptions));
 
 app.use("/api/products", products)
 app.use("/api/categories", categories)
