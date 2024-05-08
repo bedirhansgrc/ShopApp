@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema({
     }
 }, {timestamps : true })
 
-function validateUser(user) {
+function validateRegister(user) {
     const schema = new Joi.object({
         name: Joi.string().min(3).max(50).required(),
         email: Joi.string().min(3).max(50).required().email(),
@@ -38,4 +38,4 @@ function validateLogin(user) {
 
 const User = mongoose.model("User", userSchema)
 
-module.exports = { User, validateUser }
+module.exports = { User, validateRegister, validateLogin }
