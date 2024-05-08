@@ -24,7 +24,6 @@ router.post("/", async (req, res) => {
         price: req.body.price,
         description: req.body.description,
         imageUrl: req.body.imageUrl,
-        isActive: req.body.isActive,
         category: req.body.category,
         actualPrice: req.body.actualPrice,
         discount: req.body.discount,
@@ -54,7 +53,6 @@ router.put("/:id", async (req, res) => {
     product.price = req.body.price
     product.description = req.body.description
     product.imageUrl = req.body.imageUrl
-    product.isActive = req.body.isActive
     product.actualPrice = req.body.actualPrice
     product.discount = req.body.discount
     product.stock = req.body.stock
