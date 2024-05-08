@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 
+const auth = require("../middleware/auth")
+
 const { Product, validateProduct } = require("../models/product")
 
 
@@ -10,7 +12,9 @@ router.get("/", async (req, res) => {
     res.send(products)
 })
 
-router.post("/", async (req, res) => {
+router.post("/",auth, async (req, res) => {
+
+
     const { error } = validateProduct(req.body)
 
     if (error) {
@@ -33,7 +37,7 @@ router.post("/", async (req, res) => {
     res.send(newProduct)
 })
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",auth, async (req, res) => {
     //id'e göre ürün alalım
     const product = await Product.findById(req.params.id)
     if (!product) {
@@ -62,7 +66,7 @@ router.put("/:id", async (req, res) => {
     res.send(updatedProduct)
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",auth, async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.id)
     
     if(!product){
