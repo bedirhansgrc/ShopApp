@@ -1,5 +1,6 @@
 const {mongoose, Schema} = require("mongoose")
 const Joi = require("joi")
+const jwt = require("jsonwebtoken")
 
 const userSchema = mongoose.Schema({
     name: {
@@ -35,7 +36,11 @@ function validateLogin(user) {
 
     return schema.validate(user)
 }
+userSchema.methods.createAuthToken = () => {
+    return token = jwt.sign({ _id: this._id }, 'jwtPrivateKey')
+}
 
 const User = mongoose.model("User", userSchema)
+
 
 module.exports = { User, validateRegister, validateLogin }
