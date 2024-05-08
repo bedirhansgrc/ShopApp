@@ -7,6 +7,7 @@ const mongoose = require("mongoose")
 const products = require("./routes/products")
 const home = require("./routes/home")
 const categories = require("./routes/categories")
+const cart = require("./routes/cart")
 
 app.use(express.json())
 
@@ -19,6 +20,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/products", products)
 app.use("/api/categories", categories)
+app.use("/cart", cart)
 app.use("/", home)
 
 const username = "bedirhansigirci"
