@@ -27,6 +27,15 @@ function validateUser(user) {
     return schema.validate(user)
 }
 
+function validateLogin(user) {
+    const schema = new Joi.object({
+        email: Joi.string().min(3).max(50).required().email(),
+        password: Joi.string().min(8).required(),
+    })
+
+    return schema.validate(user)
+}
+
 const User = mongoose.model("User", userSchema)
 
 module.exports = { User, validateUser }

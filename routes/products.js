@@ -2,7 +2,6 @@ const express = require("express")
 const router = express.Router()
 
 const { Product, validateProduct } = require("../models/product")
-const { Category } = require("../models/category")
 
 
 router.get("/", async (req, res) => {
