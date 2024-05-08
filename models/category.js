@@ -2,7 +2,7 @@ const {mongoose, Schema} = require("mongoose")
 const Joi = require("joi")
 
 const categorySchema = mongoose.Schema({
-    name: String,
+    name: String
 })
 
 function validateCategory(category) {

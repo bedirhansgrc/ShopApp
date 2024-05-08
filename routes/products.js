@@ -6,7 +6,7 @@ const { Product, validateProduct } = require("../models/product")
 
 router.get("/", async (req, res) => {
     const products = await Product.find()
-                                        .populate("category", "name -_id")
+                                        .populate("category", "name _id")
     res.send(products)
 })
 
