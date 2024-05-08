@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const {User , validateLogin, validateRegister } = require("../models/user")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 router.get("/" , async (req,res) => {
     res.send()
@@ -49,7 +50,10 @@ router.post("/auth", async (req, res) => {
     if(!isSuccess){
         return res.status(400).send("hatalı email veya parola")
     }
-    res.send(true)
+
+    const token = jwt.sign({_id: user._id}, 'jwtPrivateKey')
+
+    res.send(token)
 })
 
 module.exports = router
