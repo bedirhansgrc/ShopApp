@@ -11,7 +11,7 @@ const productSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    category : { type: Schema.Types.String, ref:"Category" },
+    category : { type: Schema.Types.ObjectId, ref:"Category" },
     actualPrice: Number,
     discount: Number,
     stock : Number
