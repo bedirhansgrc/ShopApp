@@ -14,7 +14,8 @@ const productSchema = mongoose.Schema({
     category : { type: Schema.Types.ObjectId, ref:"Category" },
     actualPrice: Number,
     discount: Number,
-    stock : Number
+    stock : Number,
+    tags: Array
 })
 
 function validateProduct(product) {
@@ -26,7 +27,8 @@ function validateProduct(product) {
         category: Joi.string(),
         actualPrice: Joi.number().required().min(0),
         discount: Joi.number(),
-        stock: Joi.number()
+        stock: Joi.number(),
+        tags: Joi.array()
 
 
     })
