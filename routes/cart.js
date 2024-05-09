@@ -6,7 +6,7 @@ router.post("/", (req, res) => {
     try{
         const cartItems = req.body
         cartItems.forEach(async (item) => {
-            const product = await Product.findById(item.id);
+            const product = await Product.findById(item._id);
             if(!product) throw new Error();
             product.stock -= item.quantity;
             await product.save()
