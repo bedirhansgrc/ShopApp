@@ -10,7 +10,6 @@ router.post("/", (req, res) => {
             if(!product) throw new Error();
             product.stock -= item.quantity;
             await product.save()
-            console.log(product)
         });
         
         res.status(200).send("Order completed successfully!")
