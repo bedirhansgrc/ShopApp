@@ -31,7 +31,8 @@ router.post("/",[auth, isAdmin], async (req, res) => {
         category: req.body.category,
         actualPrice: req.body.actualPrice,
         discount: req.body.discount,
-        stock: req.body.stock
+        stock: req.body.stock,
+        tags: req.body.tags
     })
 
     const newProduct = await product.save()
@@ -61,6 +62,7 @@ router.put("/:id",[auth, isAdmin], async (req, res) => {
     product.discount = req.body.discount
     product.stock = req.body.stock
     product.category = req.body.category
+    product.tags = req.body.tags
 
     const updatedProduct = await product.save()
 
