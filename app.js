@@ -22,7 +22,7 @@ app.use(cors(corsOptions));
 app.use("/api/products", products)
 app.use("/api/categories", categories)
 app.use("/api/users", users)
-app.use("/cart", cart)
+app.use("/api/cart", cart)
 app.use("/", home)
 
 const username = "bedirhansigirci"
