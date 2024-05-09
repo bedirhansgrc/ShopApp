@@ -4,6 +4,7 @@ const router = express.Router()
 const auth = require("../middleware/auth")
 
 const { Product, validateProduct } = require("../models/product")
+const isAdmin = require("../middleware/isAdmin")
 
 
 router.get("/", async (req, res) => {
@@ -12,7 +13,7 @@ router.get("/", async (req, res) => {
     res.send(products)
 })
 
-router.post("/",auth, async (req, res) => {
+router.post("/",[auth, isAdmin], async (req, res) => {
 
 
     const { error } = validateProduct(req.body)
@@ -37,7 +38,7 @@ router.post("/",auth, async (req, res) => {
     res.send(newProduct)
 })
 
-router.put("/:id",auth, async (req, res) => {
+router.put("/:id",[auth, isAdmin], async (req, res) => {
     //id'e göre ürün alalım
     const product = await Product.findById(req.params.id)
     if (!product) {
@@ -66,7 +67,7 @@ router.put("/:id",auth, async (req, res) => {
     res.send(updatedProduct)
 })
 
-router.delete("/:id",auth, async (req, res) => {
+router.delete("/:id",[auth, isAdmin], async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.id)
     
     if(!product){
