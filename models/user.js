@@ -1,6 +1,7 @@
 const { mongoose, Schema } = require("mongoose")
 const Joi = require("joi")
 const jwt = require("jsonwebtoken")
+const isAdmin = require("../middleware/isAdmin")
 
 const userSchema = mongoose.Schema({
     name: {
@@ -16,14 +17,17 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    isAdmin: Boolean
+    isAdmin: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true })
 
 function validateRegister(user) {
     const schema = new Joi.object({
         name: Joi.string().min(3).max(50).required(),
         email: Joi.string().min(3).max(50).required().email(),
-        password: Joi.string().min(8).required(),
+        password: Joi.string().min(8).required()
     })
 
     return schema.validate(user)

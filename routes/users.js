@@ -56,8 +56,8 @@ router.post("/auth", async (req, res) => {
     }
 
     const token = user.createAuthToken()
-
-    res.send(token)
+    const isAdminBoolean = user.isAdmin
+    res.send({ token: token, isAdmin: isAdminBoolean });
 })
 
 
