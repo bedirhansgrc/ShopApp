@@ -60,6 +60,36 @@ router.post("/auth", async (req, res) => {
     res.send({ token: token, isAdmin: isAdminBoolean });
 })
 
+router.put("/auth",[auth, isAdmin], async (req, res)=> {
+        const user = await User.findById(req.params.id)
+        if (!user) {
+            return res.status(404).send("aradığınız kullanıcı bulunamadı")
+        }
+        const { error } = validateLogin(req.body)
+    
+        if (error) {
+            return res.status(400).send(error.details[0].message)
+    
+        }
+    
+        user.name = req.body.name
+        user.email = req.body.email
+        user.password = req.body.password
+        user.isAdmin = req.body.isAdmin
+        
+        const updatedUser = await user.save()
+    
+        res.send(updatedUser)
+})
 
+router.delete("/auth",[auth, isAdmin], async (req, res) => {
+    const user = await User.findByIdAndDelete(req.params.id)
+    
+    if(!user){
+        return res.status(404).send("Aradığınız Kullanıcı Bulunamadı")
+    }
+
+    res.send(user)
+})
 
 module.exports = router
