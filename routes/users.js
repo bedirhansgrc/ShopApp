@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
     let user = await User.findOne({ email: req.body.email })
 
     if (user) {
-        return res.status(400).send("bu mail adresiyle bir kullanıcı mevcut.")
+        return res.status(409).send("bu mail adresiyle bir kullanıcı mevcut.")
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10)
