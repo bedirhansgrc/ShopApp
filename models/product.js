@@ -26,11 +26,10 @@ function validateProduct(product) {
         imageUrl: Joi.string(),
         category: Joi.string(),
         actualPrice: Joi.number().required().min(0),
+        date: Joi.date(),
         discount: Joi.number(),
         stock: Joi.number(),
-        tags: Joi.array()
-
-
+        tags: Joi.array(),
     })
 
     return schema.validate(product)

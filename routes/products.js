@@ -36,7 +36,7 @@ router.post("/",[auth, isAdmin], async (req, res) => {
     })
 
     const newProduct = await product.save()
-    res.send(newProduct)
+    res.status(201).send(newProduct)
 })
 
 router.put("/:id",[auth, isAdmin], async (req, res) => {
