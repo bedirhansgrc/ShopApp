@@ -74,7 +74,6 @@ router.put("/auth",[auth, isAdmin], async (req, res)=> {
     
         user.name = req.body.name
         user.email = req.body.email
-        user.password = req.body.password
         user.isAdmin = req.body.isAdmin
         
         const updatedUser = await user.save()
