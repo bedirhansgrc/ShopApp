@@ -62,7 +62,7 @@ router.post("/auth", async (req, res) => {
 
 router.put("/auth/:id",[auth, isAdmin], async (req, res)=> {
         const user = await User.findById(req.params.id)
-    
+
         if (!user) {
             return res.status(404).send("aradığınız kullanıcı bulunamadı")
         }
