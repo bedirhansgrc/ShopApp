@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const { User, validateLogin, validateRegister } = require("../models/user")
+const { User, validateLogin, validateRegister, validateChange } = require("../models/user")
 const bcrypt = require("bcrypt")
 const auth = require("../middleware/auth")
 const isAdmin = require("../middleware/isAdmin")
@@ -60,18 +60,20 @@ router.post("/auth", async (req, res) => {
     res.send({ token: token, isAdmin: isAdminBoolean });
 })
 
-router.put("/auth",[auth, isAdmin], async (req, res)=> {
+router.put("/auth/:id",[auth, isAdmin], async (req, res)=> {
         const user = await User.findById(req.params.id)
+    
         if (!user) {
             return res.status(404).send("aradığınız kullanıcı bulunamadı")
         }
-        const { error } = validateLogin(req.body)
+        const { error } = validateChange(req.body)
     
         if (error) {
             return res.status(400).send(error.details[0].message)
     
         }
-    
+
+
         user.name = req.body.name
         user.email = req.body.email
         user.isAdmin = req.body.isAdmin
@@ -81,7 +83,7 @@ router.put("/auth",[auth, isAdmin], async (req, res)=> {
         res.send(updatedUser)
 })
 
-router.delete("/auth",[auth, isAdmin], async (req, res) => {
+router.delete("/auth/:id",[auth, isAdmin], async (req, res) => {
     const user = await User.findByIdAndDelete(req.params.id)
     
     if(!user){

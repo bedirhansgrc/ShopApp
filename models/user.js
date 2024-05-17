@@ -33,6 +33,16 @@ function validateRegister(user) {
     return schema.validate(user)
 }
 
+function validateChange(user){
+    const schema = new Joi.object({
+        name: Joi.string().min(3).max(50),
+        email: Joi.string().min(3).max(50).email(),
+        isAdmin: Joi.boolean()
+    })
+
+    return schema.validate(user)
+}
+
 function validateLogin(user) {
     const schema = new Joi.object({
         email: Joi.string().min(3).max(50).required().email(),
@@ -49,4 +59,4 @@ userSchema.methods.createAuthToken = function () {
 const User = mongoose.model("User", userSchema)
 
 
-module.exports = { User, validateRegister, validateLogin }
+module.exports = { User, validateRegister, validateLogin, validateChange }
